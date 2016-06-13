@@ -32,14 +32,16 @@ describe('Hapi server', () => {
         });
     });
 
-    it('should fail with no invalid mongodb uri ', (done) => {
+    it('should fail with invalid mongodb uri ', (done) => {
 
         server.register({
             register: require('../lib'),
             options: {
-                url: 'mongodb://:pass@localhost:27018/test'
+                connection: 'mongodb://:pass@localhost:27017/test'
             }
         }, (err) => {
+
+            console.log("ERRR", err);
 
             expect(err).to.exist();
             done();
@@ -170,6 +172,7 @@ describe('Hapi server', () => {
                 method: 'GET',
                 path: '/',
                 handler: (request, reply) => {
+
                     expect(request.mongo).to.exists();
 
                     done();
@@ -203,6 +206,7 @@ describe('Hapi server', () => {
                 method: 'GET',
                 path: '/',
                 handler: (request, reply) => {
+
                     expect(request.myMongo).to.exist();
 
                     done();
@@ -245,7 +249,11 @@ describe('Hapi server', () => {
             register: require('../lib'),
             options: {
                 connection: [
-                    { uri: 'mongodb://localhost:27017/test', options: {}, 'name': 'myMongoConn1' },
+                    {
+                        uri: 'mongodb://localhost:27017/test',
+                        options: {},
+                        'name': 'myMongoConn1'
+                    },
                     'mongodb://localhost:27017/local'
                 ]
             }

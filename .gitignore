@@ -93,3 +93,5 @@ fabric.properties
 
 # *.iml
 # modules.xml
+
+/coverage
