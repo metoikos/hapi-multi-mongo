@@ -18,7 +18,7 @@ You can find detailed explanation of this configuration in [Usage](#usage) secti
     - If `myMongos`, `server.myMongos` or `request.myMongos`
 
 
-## Acknoledgements
+#### Acknoledgements
 
 This module borrows from [hapi-mongodb], thank you to @Marsup for his great work.    
 
