@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
 # Hapi-Multip-Mongo
 
-This project heavily inspired from [hapi-mongodb](https://github.com/Marsup/hapi-mongodb)
+This project inspired from [hapi-mongodb](https://github.com/Marsup/hapi-mongodb)
 ## Motivation
 
 Motivation to create this plugin is access multiple mongodb servers and multiple databases in request/reply life cycle.
@@ -23,7 +23,8 @@ You can find detailed explanation of this configuration in [Usage](#usage) secti
 - name: *Optional.* Exposed name to server and request object if you want to access connections other than name mongo.
     - If `myMongos`, `server.myMongos` or `request.myMongos`
 
-## `Usage`:
+#### `Usage`:
+
 Configuration object options. All of the samples in below are correct
 ```js
 // single connection to db_name
@@ -102,7 +103,8 @@ Configuration object options. All of the samples in below are correct
 }
 
 ```
-## `Example App`:
+##### `Example App`:
+
 ```js
 
 var Hapi = require("hapi");
