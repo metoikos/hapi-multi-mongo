@@ -21,8 +21,8 @@ You can find detailed explanation of this configuration in [Usage](#usage) secti
 #### Acknoledgements
 
 This module borrows from [hapi-mongodb], thank you to @Marsup for his great work.
-    
-[hapi-mongodb]: https://github.com/sandfox/node-hapi-redis
+
+[hapi-mongodb]: https://github.com/Marsup/hapi-mongodb
 
 #### Usage:
 
