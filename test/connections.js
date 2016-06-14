@@ -37,11 +37,9 @@ describe('Hapi server', () => {
         server.register({
             register: require('../lib'),
             options: {
-                connection: 'mongodb://:pass@localhost:27017/test'
+                connection: 'mongodb://:x@localhost:27017/test'
             }
         }, (err) => {
-
-            console.log("ERRR", err);
 
             expect(err).to.exist();
             done();
@@ -53,7 +51,7 @@ describe('Hapi server', () => {
         server.register({
             register: require('../lib'),
             options: {
-                url: 'mongodb://localhost:27018/test'
+                connection: 'mongodb://localhost:27018/test'
             }
         }, (err) => {
 
