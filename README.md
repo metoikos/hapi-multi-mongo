@@ -62,21 +62,30 @@ Configuration object options. All of the samples in below are correct
 // access with request.server.plugins['hapi-multi-mongo'].db_name
 // request.server.plugins['hapi-multi-mongo'].db_name_2
 {
-    connection: ['mongodb://localhost:27017/db_name', 'mongodb://localhost:27018/db_name_2']
+    connection: [
+        'mongodb://localhost:27017/db_name',
+        'mongodb://localhost:27018/db_name_2'
+    ]
 }
 
 // multi server with custom name
 // access with request.server.plugins['hapi-multi-mongo'].db_name
 // request.server.plugins['hapi-multi-mongo'].myDB
 {
-    connection: ['mongodb://localhost:27017/db_name', {uri: 'mongodb://localhost:27018/db_name', name: 'myDB'}]
+    connection: [
+        'mongodb://localhost:27017/db_name',
+        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB'}
+    ]
 }
 
 // multi server with expose
 // access with server.mongo.db_name, request.mongo.db_name
 // server.mongo.myDB, request.mongo.myDB
 {
-    connection: ['mongodb://localhost:27017/db_name', {uri: 'mongodb://localhost:27018/db_name', name: 'myDB'}],
+    connection: [
+        'mongodb://localhost:27017/db_name',
+        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB'}
+    ],
     expose: true
 }
 
@@ -90,7 +99,6 @@ Configuration object options. All of the samples in below are correct
     ],
     expose: true,
     options: {fsync: true}
-
 }
 
 ```
