@@ -94,6 +94,10 @@ You can find detailed explanation of this configuration in [Usage](#Usage) secti
 
 }
 
+```
+## `Example App`:
+```js
+
 var Hapi = require("hapi");
 var Boom = require("boom");
 
@@ -126,16 +130,14 @@ server.register({
 server.route( {
     "method"  : "GET",
     "path"    : "/users/{id}",
-    "handler" : usersHandler
+    "handler" : (request, reply) => {
+        let mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+        let collection = mongos['test'].collection('users');
+
+        collection.findOne({  "_id" : request.params.id }, function(err, result) {
+            if (err) return reply(Boom.internal('Internal MongoDB error', err));
+            reply(result);
+        });
+    }
 });
-
-function usersHandler(request, reply) {
-    let mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-    let collection = mongos['test'].collection('users');
-
-    collection.findOne({  "_id" : request.params.id }, function(err, result) {
-        if (err) return reply(Boom.internal('Internal MongoDB error', err));
-        reply(result);
-    });
-};
 ```
