@@ -46,6 +46,20 @@ describe('Hapi server', () => {
         });
     });
 
+    it('should fail if there is not a name and not a directly connection to a database', (done) => {
+
+        server.register({
+            register: require('../lib'),
+            options: {
+                connection: 'mongodb://localhost:27017'
+            }
+        }, (err) => {
+
+            expect(err).to.exist();
+            done();
+        });
+    });
+
     it('should fail with no mongodb listening', (done) => {
 
         server.register({
@@ -226,6 +240,7 @@ describe('Hapi server', () => {
             options: {
                 connection: [
                     'mongodb://localhost:27017/test',
+                    { uri: 'mongodb://localhost:27017', name: 'myConn' },
                     'mongodb://localhost:27017/local'
                 ]
             }
@@ -234,10 +249,51 @@ describe('Hapi server', () => {
             expect(err).to.not.exist();
 
             const plugin = server.plugins['hapi-multi-mongo'];
-            expect(plugin.mongo).to.be.an.object().and.to.have.length(2);
-            expect(plugin.mongo).includes(['test', 'local']);
+            expect(plugin.mongo).to.be.an.object().and.to.have.length(3);
+            expect(plugin.mongo).includes(['test', 'myConn', 'local']);
 
             done();
+        });
+    });
+
+    it('should be able to connect to a database', (done) => {
+
+        server.connection();
+        server.register({
+            register: require('../lib'),
+            options: {
+                connection: [
+                    { uri: 'mongodb://localhost:27017', name: 'myMongo' }
+                ]
+            }
+        }, (err) => {
+
+            expect(err).to.not.exist();
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: (request, reply) => {
+
+                    const plugin = server.plugins['hapi-multi-mongo'];
+                    expect(plugin.mongo.myMongo).to.exist();
+                    const db = plugin.mongo.myMongo.db('test');
+                    expect(db).to.exist();
+                    // const collection = db.collection('system.indexes');
+                    //
+                    // collection.findOne().then((data) => {
+                    //     console.log(data);
+                    //     done();
+                    // });
+                    done();
+                }
+            });
+
+            server.inject({
+                method: 'GET',
+                url: '/'
+            }, () => {
+            });
         });
     });
 

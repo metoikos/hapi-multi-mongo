@@ -1,36 +1,47 @@
 [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
 # Hapi-Multip-Mongo
 
-This project inspired from [hapi-mongodb](https://github.com/Marsup/hapi-mongodb)
 ## Motivation
 
 Motivation to create this plugin is access multiple mongodb servers and multiple databases in request/reply life cycle.
 Plugin accepts complex configuration options and exposes/decorates connections object to server object.
 
-This plugin is ideal for multiple mongodb server connection, if you want to access multiple database in one server
-[hapi-mongodb](https://github.com/Marsup/hapi-mongodb) does this very good and you should use it. Because this plugin opens new
-connection to each connection object and requires database name to be provided. It exposes database name to connection object
-and you are accessing mongodb connections through this name.
-
 Connection options can be a single object with the following keys:
 
 - connection: *Required.* Single MongoDB connection uri (eg. `mongodb://user:pass@localhost:27017/db_name`) or an array of multiple servers.
 Connection configuration can be a string, object or an array combination of object and strings.
-You can find detailed explanation of this configuration in [Usage](#usage) section.
+You can find detailed explanation of this configuration in [Usage](#usage) section. One simple tip here, you have to connect directly to a database or you have to provide a connection name for each connection element, plugin stores and exposes connections through database name or given name.
 - options: *Optional.* Provide extra settings to the connection, see [MongoClient documentation](http://mongodb.github.io/node-mongodb-native/driver-articles/mongoclient.html#mongoclient-connect-options). You can override this settings with provide additional connection options to each server.
 - decorate: *Optional.* Rather have exposed objects accessible through server and request decorations.
     - If `true`, `server.mongo` or `request.mongo`
 - name: *Optional.* Exposed name to server and request object if you want to access connections other than name mongo.
     - If `myMongos`, `server.myMongos` or `request.myMongos`
 
-#### `Usage`:
+
+## Acknoledgements
+
+This module borrows from [hapi-mongodb], thank you to @Marsup for his great work.    
+
+#### Usage:
 
 Configuration object options. All of the samples in below are correct
 ```js
 // single connection to db_name
 // access with request.server.plugins['hapi-multi-mongo'].db_name
+// you can pick a collection and query from this usage
 {
     connection: 'mongodb://localhost:27017/db_name'
+}
+// single connection to db_name
+// access with request.server.plugins['hapi-multi-mongo'].myConn
+// in this usage, you have to pick a database first
+// then you need to pick collection then you can have queries on that collection
+// keep that in mind
+{
+    connection: {
+      uri: 'mongodb://localhost:27017',
+      name: 'myConn'
+    }
 }
 
 // single with custom name
@@ -103,7 +114,7 @@ Configuration object options. All of the samples in below are correct
 }
 
 ```
-##### `Example App`:
+##### Example App:
 
 ```js
 
@@ -111,7 +122,10 @@ var Hapi = require("hapi");
 var Boom = require("boom");
 
 var dbOpts = {
-    "connection": "mongodb://localhost:27017/test",
+    "connection": [
+      "mongodb://localhost:27017/test",
+      { uri: "mongodb://localhost:27017", name: "remoteMongo"}
+    ],
     "options": {
         "db": {
             "native_parser": false
@@ -136,14 +150,31 @@ server.register({
     });
 });
 
+// pick collection from database connection
 server.route( {
     "method"  : "GET",
     "path"    : "/users/{id}",
     "handler" : (request, reply) => {
-        let mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-        let collection = mongos['test'].collection('users');
+        const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+        const collection = mongos['test'].collection('users');
 
         collection.findOne({  "_id" : request.params.id }, function(err, result) {
+            if (err) return reply(Boom.internal('Internal MongoDB error', err));
+            reply(result);
+        });
+    }
+});
+
+// access directly to mongo object and pick database and collection
+server.route( {
+    "method"  : "GET",
+    "path"    : "/dashboard",
+    "handler" : (request, reply) => {
+        let mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+        const db = mongos.remoteMongo.db('analytics');
+        const collection = db.collection('users');
+
+        collection.find({}, function(err, result) {
             if (err) return reply(Boom.internal('Internal MongoDB error', err));
             reply(result);
         });
