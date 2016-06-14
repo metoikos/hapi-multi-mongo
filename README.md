@@ -24,8 +24,7 @@ You can find detailed explanation of this configuration in [Usage](#Usage) secti
     - If `myMongos`, `server.myMongos` or `request.myMongos`
 
 ## `Usage`:
-// configuration object options
-// all of the samples in below are correct
+Configuration object options. All of the samples in below are correct
 ```js
 // single connection to db_name
 // access with request.server.plugins['hapi-multi-mongo'].db_name
