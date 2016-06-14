@@ -16,7 +16,7 @@ Connection options can be a single object with the following keys:
 
 - connection: *Required.* Single MongoDB connection uri (eg. `mongodb://user:pass@localhost:27017/db_name`) or an array of multiple servers.
 Connection configuration can be a string, object or an array combination of object and strings.
-You can find detailed explanation of this configuration in [Usage](#Usage) section.
+You can find detailed explanation of this configuration in [Usage](#usage) section.
 - options: *Optional.* Provide extra settings to the connection, see [MongoClient documentation](http://mongodb.github.io/node-mongodb-native/driver-articles/mongoclient.html#mongoclient-connect-options). You can override this settings with provide additional connection options to each server.
 - decorate: *Optional.* Rather have exposed objects accessible through server and request decorations.
     - If `true`, `server.mongo` or `request.mongo`
