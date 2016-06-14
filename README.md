@@ -170,7 +170,7 @@ server.route( {
     "method"  : "GET",
     "path"    : "/dashboard",
     "handler" : (request, reply) => {
-        let mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+        const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
         const db = mongos.remoteMongo.db('analytics');
         const collection = db.collection('users');
 
