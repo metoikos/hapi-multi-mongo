@@ -1,6 +1,6 @@
 {
   "name": "hapi-multi-mongo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Hapi mongodb connection plugin, especially for multiple connections",
   "main": "lib/index.js",
   "scripts": {
