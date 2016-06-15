@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
-# Hapi-Multip-Mongo
+# Hapi-Multi-Mongo
 
 ## Motivation
 
