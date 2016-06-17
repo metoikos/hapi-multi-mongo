@@ -24,6 +24,12 @@ This module borrows from [hapi-mongodb], thank you to @Marsup for his great work
 
 [hapi-mongodb]: https://github.com/Marsup/hapi-mongodb
 
+### Installation:
+
+```no-highlight
+npm install --save hapi-multi-mongo
+```
+
 #### Usage:
 
 Configuration object options. All of the samples in below are correct
