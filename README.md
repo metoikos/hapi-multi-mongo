@@ -63,18 +63,18 @@ Configuration object options. All of the samples in below are correct
     connection: {uri: 'mongodb://localhost:27017/db_name', options: {fsync: true}}
 }
 
-// single with expose
+// single with decorate
 // access with server.mongo.db_name, request.mongo.db_name
 {
     connection: 'mongodb://localhost:27017/db_name',
-    expose: true
+    decorate: true
 }
 
-// single with expose and custom name
+// single with decorate and custom name
 // access with server.myMongos.db_name, request.myMongos.db_name
 {
     connection: 'mongodb://localhost:27017/db_name',
-    expose: true,
+    decorate: true,
     name: 'myMongos'
 }
 
@@ -98,7 +98,7 @@ Configuration object options. All of the samples in below are correct
     ]
 }
 
-// multi server with expose
+// multi server with decorate
 // access with server.mongo.db_name, request.mongo.db_name
 // server.mongo.myDB, request.mongo.myDB
 {
@@ -106,7 +106,7 @@ Configuration object options. All of the samples in below are correct
         'mongodb://localhost:27017/db_name',
         {uri: 'mongodb://localhost:27018/db_name', name: 'myDB'}
     ],
-    expose: true
+    decorate: true
 }
 
 // multi server with options
@@ -117,7 +117,7 @@ Configuration object options. All of the samples in below are correct
         'mongodb://localhost:27017/db_name',
         {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {fsync: false}}
     ],
-    expose: true,
+    decorate: true,
     options: {fsync: true}
 }
 
