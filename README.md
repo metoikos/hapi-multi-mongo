@@ -35,13 +35,13 @@ npm install --save hapi-multi-mongo
 Configuration object options. All of the samples in below are correct
 ```js
 // single connection to db_name
-// access with request.server.plugins['hapi-multi-mongo'].db_name
+// access with request.server.plugins['hapi-multi-mongo'].mongo.db_name
 // you can pick a collection and query from this usage
 {
     connection: 'mongodb://localhost:27017/db_name'
 }
 // single connection to db_name
-// access with request.server.plugins['hapi-multi-mongo'].myConn
+// access with request.server.plugins['hapi-multi-mongo'].mongo.myConn
 // in this usage, you have to pick a database first
 // then you need to pick collection then you can have queries on that collection
 // keep that in mind
@@ -53,14 +53,14 @@ Configuration object options. All of the samples in below are correct
 }
 
 // single with custom name
-// access with request.server.plugins['hapi-multi-mongo'].myDb
+// access with request.server.plugins['hapi-multi-mongo'].mongo.myDb
 {
     connection: {uri: 'mongodb://localhost:27017/db_name', name: 'myDb'}
 }
 // single with options
-// access with request.server.plugins['hapi-multi-mongo'].db_name
+// access with request.server.plugins['hapi-multi-mongo'].mongo.db_name
 {
-    connection: {uri: 'mongodb://localhost:27017/db_name', options: {fsync: true}}
+    connection: {uri: 'mongodb://localhost:27017/db_name', options: {db: {fsync: true}}}
 }
 
 // single with decorate
@@ -79,8 +79,8 @@ Configuration object options. All of the samples in below are correct
 }
 
 // multi server
-// access with request.server.plugins['hapi-multi-mongo'].db_name
-// request.server.plugins['hapi-multi-mongo'].db_name_2
+// access with request.server.plugins['hapi-multi-mongo'].mongo.db_name
+// request.server.plugins['hapi-multi-mongo'].mongo.db_name_2
 {
     connection: [
         'mongodb://localhost:27017/db_name',
@@ -89,8 +89,8 @@ Configuration object options. All of the samples in below are correct
 }
 
 // multi server with custom name
-// access with request.server.plugins['hapi-multi-mongo'].db_name
-// request.server.plugins['hapi-multi-mongo'].myDB
+// access with request.server.plugins['hapi-multi-mongo'].mongo.db_name
+// request.server.plugins['hapi-multi-mongo'].mongo.myDB
 {
     connection: [
         'mongodb://localhost:27017/db_name',
@@ -115,10 +115,22 @@ Configuration object options. All of the samples in below are correct
 {
     connection: [
         'mongodb://localhost:27017/db_name',
-        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {fsync: false}}
+        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {db: {fsync: false}}}
     ],
     decorate: true,
-    options: {fsync: true}
+    options: {db: {fsync: true}}
+}
+
+
+// custom promise library
+// access with server.mongo.db_name, request.mongo.db_name uses native mongo promise implementation
+// server.mongo.myDB, request.mongo.myDB uses bluebird as a promise library
+{
+    connection: [
+        'mongodb://localhost:27017/db_name',
+        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {promiseLibrary: require('bluebird')}}
+    ],
+    decorate: true
 }
 
 ```

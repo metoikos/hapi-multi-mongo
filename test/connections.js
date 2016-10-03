@@ -133,6 +133,39 @@ describe('Hapi server', () => {
         });
     });
 
+    it('should be able to expose plugin with custom name', (done) => {
+
+        server.connection();
+        server.register({
+            register: require('../lib'),
+            options: {
+                connection: 'mongodb://localhost:27017/test',
+                name: 'myMongo'
+            }
+        }, (err) => {
+
+            expect(err).to.not.exist();
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: (request, reply) => {
+
+                    const plugin = request.server.plugins['hapi-multi-mongo'];
+                    expect(plugin.myMongo).to.exist();
+
+                    done();
+                }
+            });
+
+            server.inject({
+                method: 'GET',
+                url: '/'
+            }, () => {
+            });
+        });
+    });
+
     it('should be able to find the plugin exposed objects and custom name', (done) => {
 
         server.connection();
@@ -240,9 +273,25 @@ describe('Hapi server', () => {
             options: {
                 connection: [
                     'mongodb://localhost:27017/test',
-                    { uri: 'mongodb://localhost:27017', name: 'myConn' },
+                    {
+                        uri: 'mongodb://127.0.0.1:27017',
+                        name: 'myConn',
+                        options: {
+                            db: {
+                                native_parser: true
+                            },
+                            promiseLibrary: require('bluebird')
+                        }
+                    },
                     'mongodb://localhost:27017/local'
-                ]
+                ],
+                options: {
+                    db: {
+                        /* eslint-disable camelcase */
+                        native_parser: false
+                        /* eslint-enable camelcase */
+                    }
+                }
             }
         }, (err) => {
 
@@ -263,7 +312,7 @@ describe('Hapi server', () => {
             register: require('../lib'),
             options: {
                 connection: [
-                    { uri: 'mongodb://localhost:27017', name: 'myMongo' }
+                    {uri: 'mongodb://localhost:27017', name: 'myMongo'}
                 ]
             }
         }, (err) => {
@@ -279,13 +328,52 @@ describe('Hapi server', () => {
                     expect(plugin.mongo.myMongo).to.exist();
                     const db = plugin.mongo.myMongo.db('test');
                     expect(db).to.exist();
-                    // const collection = db.collection('system.indexes');
-                    //
-                    // collection.findOne().then((data) => {
-                    //     console.log(data);
-                    //     done();
-                    // });
+
                     done();
+                }
+            });
+
+            server.inject({
+                method: 'GET',
+                url: '/'
+            }, () => {
+            });
+        });
+    });
+
+    it('should be able to use custom promise library', (done) => {
+
+        server.connection();
+        server.register({
+            register: require('../lib'),
+            options: {
+                connection: [
+                    {
+                        uri: 'mongodb://localhost:27017', name: 'myMongo',
+                        options: {
+                            promiseLibrary: require('bluebird')
+                        }
+                    },
+                    'mongodb://localhost:27017/test'
+                ]
+
+            }
+        }, (err) => {
+
+            expect(err).to.not.exist();
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: (request, reply) => {
+
+                    const plugin = server.plugins['hapi-multi-mongo'];
+                    const db = plugin.mongo.myMongo.db('test');
+                    const collection = db.collection('system.indexes');
+
+                    collection.findOne().then((data) => {
+                        done();
+                    });
                 }
             });
 
