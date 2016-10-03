@@ -312,7 +312,9 @@ describe('Hapi server', () => {
             register: require('../lib'),
             options: {
                 connection: [
-                    {uri: 'mongodb://localhost:27017', name: 'myMongo'}
+                    {
+                        uri: 'mongodb://localhost:27017', name: 'myMongo'
+                    }
                 ]
             }
         }, (err) => {
@@ -372,6 +374,7 @@ describe('Hapi server', () => {
                     const collection = db.collection('system.indexes');
 
                     collection.findOne().then((data) => {
+
                         done();
                     });
                 }
