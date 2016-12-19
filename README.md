@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
+[![npm version](https://badge.fury.io/js/hapi-multi-mongo.svg)](https://badge.fury.io/js/hapi-multi-mongo) [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
 # Hapi-Multi-Mongo
 
 ## Motivation
