@@ -1,6 +1,9 @@
 [![npm version](https://badge.fury.io/js/hapi-multi-mongo.svg)](https://badge.fury.io/js/hapi-multi-mongo) [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
 # Hapi-Multi-Mongo
 
+Battle tested Hapi mongodb connection plugin, especially for multiple connections
+
+
 ## Motivation
 
 Motivation to create this plugin is access multiple mongodb servers and multiple databases in request/reply life cycle.
@@ -138,10 +141,10 @@ Configuration object options. All of the samples in below are correct
 
 ```js
 
-var Hapi = require("hapi");
-var Boom = require("boom");
+const Hapi = require("hapi");
+const Boom = require("boom");
 
-var dbOpts = {
+const dbOpts = {
     "connection": [
       "mongodb://localhost:27017/test",
       { uri: "mongodb://localhost:27017", name: "remoteMongo"}
@@ -153,7 +156,7 @@ var dbOpts = {
     }
 };
 
-var server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({ port: 3000 });
 
 server.register({
