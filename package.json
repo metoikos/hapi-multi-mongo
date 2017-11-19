@@ -26,12 +26,12 @@
     "mongodb": "2.x.x"
   },
   "devDependencies": {
-    "bluebird": "3.x.x",
-    "code": "3.x.x",
-    "hapi": ">= 13.x.x",
-    "lab": "10.x.x"
+    "bluebird": "3.5.1",
+    "code": "5.1.2",
+    "hapi": ">= 17.x.x",
+    "lab": "15.1.2"
   },
   "peerDependencies": {
-    "hapi": ">= 13.x.x"
+    "hapi": ">= 17.x.x"
   }
 }
