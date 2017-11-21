@@ -1,36 +1,43 @@
-[![npm version](https://badge.fury.io/js/hapi-multi-mongo.svg)](https://badge.fury.io/js/hapi-multi-mongo) [![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
+[![npm version](https://badge.fury.io/js/hapi-multi-mongo.svg)](https://badge.fury.io/js/hapi-multi-mongo) 
+[![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
+
 # Hapi-Multi-Mongo
 
 Battle tested Hapi mongodb connection plugin, especially for multiple connections
 
+#### Supports Hapi >= 17
+To use with older versions of Hapi, please use 3.1.1 version 
 
 ## Motivation
 
-Motivation to create this plugin is access multiple mongodb servers and multiple databases in request/reply life cycle.
-Plugin accepts complex configuration options and exposes/decorates connections object to server object.
+Motivation to create this plugin is accessing multiple MongoDB servers and various databases in request/reply life cycle. 
+The plugin accepts complex configuration options and exposes/decorates connections object to the server object. 
 
 Connection options can be a single object with the following keys:
 
-- connection: *Required.* Single MongoDB connection uri (eg. `mongodb://user:pass@localhost:27017/db_name`) or an array of multiple servers.
-Connection configuration can be a string, object or an array combination of object and strings.
-You can find detailed explanation of this configuration in [Usage](#usage) section. One simple tip here, you have to connect directly to a database or you have to provide a connection name for each connection element, plugin stores and exposes connections through database name or given name.
-- options: *Optional.* Provide extra settings to the connection, see [MongoClient documentation](http://mongodb.github.io/node-mongodb-native/2.2/api/MongoClient.html). You can override this settings with provide additional connection options to each server.
-- decorate: *Optional.* Rather have exposed objects accessible through server and request decorations.
-    - If `true`, `server.mongo` or `request.mongo`
+- connection: *Required.* Single MongoDB connection uri (eg. `mongodb://user:pass@localhost:27017/db_name`) or an array 
+of multiple servers. Connection configuration can be a string, object or an array combination of object and strings. 
+You can find a detailed explanation of this configuration in [Usage](#usage) section. One simple tip here, you have to connect 
+directly to a database, or you have to provide a connection name for each connection element, plugin stores and exposes 
+connections through database name or a given name. 
+- options: *Optional.* Provide extra settings for the connection, see [MongoClient documentation](http://mongodb.github.io/node-mongodb-native/2.2/api/MongoClient.html). 
+You can override this setting by providing additional connection options to each server. 
+- decorate: *Optional.* Rather have exposed objects accessible through server and request decorations.  
+    - If `true`, `server.mongo` else `request.mongo` 
 - name: *Optional.* Exposed name to server and request object if you want to access connections other than name mongo.
-    - If `myMongos`, `server.myMongos` or `request.myMongos`
+    - If `myMongos`, `server.myMongos` else `request.myMongos` 
 
 
-#### Acknoledgements
-
-This module borrows from [hapi-mongodb], thank you to @Marsup for his great work.
+#### Acknowledgements
+ 
+This module borrows from hapi-mongodb, thank you to @Marsup for his excellent work. 
 
 [hapi-mongodb]: https://github.com/Marsup/hapi-mongodb
 
 ### Installation:
 
 ```no-highlight
-npm install --save hapi-multi-mongo
+npm install hapi-multi-mongo
 ```
 
 #### Usage:
@@ -46,7 +53,7 @@ Configuration object options. All of the samples in below are correct
 // single connection to db_name
 // access with request.server.plugins['hapi-multi-mongo'].mongo.myConn
 // in this usage, you have to pick a database first
-// then you need to pick collection then you can have queries on that collection
+// then you need to choose a collection then you can have queries on that collection,
 // keep that in mind
 {
     connection: {
@@ -63,7 +70,7 @@ Configuration object options. All of the samples in below are correct
 // single with options
 // access with request.server.plugins['hapi-multi-mongo'].mongo.db_name
 {
-    connection: {uri: 'mongodb://localhost:27017/db_name', options: {db: {fsync: true}}}
+    connection: {uri: 'mongodb://localhost:27017/db_name', options: {fsync: true}}
 }
 
 // single with decorate
@@ -118,10 +125,10 @@ Configuration object options. All of the samples in below are correct
 {
     connection: [
         'mongodb://localhost:27017/db_name',
-        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {db: {fsync: false}}}
+        {uri: 'mongodb://localhost:27018/db_name', name: 'myDB', options: {fsync: false}}
     ],
     decorate: true,
-    options: {db: {fsync: true}}
+    options: {fsync: true}
 }
 
 
@@ -151,9 +158,7 @@ const startServer = async function() {
           { uri: "mongodb://localhost:27017", name: "remoteMongo"}
         ],
         "options": {
-            "db": {
-                "native_parser": false
-            }
+            "native_parser": false
         }
     };
     
@@ -182,7 +187,7 @@ const startServer = async function() {
         }
     });
     
-    // access directly to mongo object and pick database and collection
+    // access directly to the mongo object and pick database and collection
     server.route( {
         "method"  : "GET",
         "path"    : "/dashboard",

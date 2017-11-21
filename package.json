@@ -22,7 +22,6 @@
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
     "bluebird": "3.x.x",
-    "hoek": "^4.1.0",
     "mongodb": "2.x.x"
   },
   "devDependencies": {
