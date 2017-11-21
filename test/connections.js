@@ -8,18 +8,20 @@ const it = lab.it;
 const beforeEach = lab.beforeEach;
 const expect = require('code').expect;
 const Promise = require('bluebird');
-describe('Hapi server', async () => {
+describe('Hapi server', () => {
 
     let server;
 
     beforeEach(async () => {
+
         server = await new Hapi.Server();
     });
 
     it('should reject invalid options', async () => {
+
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     conn: 'mongodb://localhost:27017/test'
                 }
@@ -35,25 +37,24 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
-                options: {
-                    connection: 'mongodb://:x@localhost:27017/test'
-                }
+                plugin: require('../lib'),
+                options: { connection: 'mongodb://:x@localhost:27017/test' }
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.exist();
         }
     });
 
     it('should fail if there is not a name and not a directly connection to a database', async () => {
+
         try {
             await server.register({
-                register: require('../lib'),
-                options: {
-                    connection: 'mongodb://localhost:27017'
-                }
+                plugin: require('../lib'),
+                options: { connection: 'mongodb://localhost:27017' }
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.exist();
         }
     });
@@ -62,12 +63,11 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
-                options: {
-                    connection: 'mongodb://localhost:27018/test'
-                }
+                plugin: require('../lib'),
+                options: { connection: 'mongodb://localhost:27018/test' }
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.exist();
         }
     });
@@ -75,10 +75,8 @@ describe('Hapi server', async () => {
     it('should be able to register plugin with just URL', async () => {
 
         await server.register({
-            register: require('../lib'),
-            options: {
-                connection: 'mongodb://localhost:27017/test'
-            }
+            plugin: require('../lib'),
+            options: { connection: 'mongodb://localhost:27017/test' }
         });
     });
 
@@ -86,15 +84,14 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
-                    options: {
-                        native_parser: false
-                    }
+                    options: { native_parser: false }
                 }
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -103,10 +100,8 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
-                options: {
-                    connection: 'mongodb://localhost:27017/test'
-                }
+                plugin: require('../lib'),
+                options: { connection: 'mongodb://localhost:27017/test' }
             });
 
             server.route({
@@ -116,6 +111,7 @@ describe('Hapi server', async () => {
 
                     const plugin = request.server.plugins['hapi-multi-mongo'];
                     expect(plugin.mongo).to.exist();
+                    return Promise.resolve(null);
                 }
             });
 
@@ -124,7 +120,8 @@ describe('Hapi server', async () => {
                 url: '/'
             });
 
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -133,7 +130,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
                     name: 'myMongo'
@@ -146,6 +143,7 @@ describe('Hapi server', async () => {
 
                     const plugin = request.server.plugins['hapi-multi-mongo'];
                     expect(plugin.myMongo).to.exist();
+                    return Promise.resolve(null);
                 }
             });
 
@@ -153,7 +151,8 @@ describe('Hapi server', async () => {
                 method: 'GET',
                 url: '/'
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -162,7 +161,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
                     name: 'myMongo'
@@ -175,6 +174,7 @@ describe('Hapi server', async () => {
 
                     const plugin = request.server.plugins['hapi-multi-mongo'];
                     expect(plugin.myMongo).to.exist();
+                    return Promise.resolve(null);
                 }
             });
 
@@ -182,7 +182,8 @@ describe('Hapi server', async () => {
                 method: 'GET',
                 url: '/'
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -191,7 +192,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
                     decorate: true
@@ -205,7 +206,7 @@ describe('Hapi server', async () => {
                 handler: (request) => {
 
                     expect(request.mongo).to.exists();
-
+                    return Promise.resolve(null);
                 }
             });
 
@@ -213,7 +214,8 @@ describe('Hapi server', async () => {
                 method: 'GET',
                 url: '/'
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -222,7 +224,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
                     decorate: true,
@@ -238,7 +240,7 @@ describe('Hapi server', async () => {
                 handler: (request) => {
 
                     expect(request.myMongo).to.exist();
-
+                    return Promise.resolve(null);
                 }
             });
 
@@ -247,7 +249,8 @@ describe('Hapi server', async () => {
                 url: '/'
             });
 
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -256,7 +259,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: [
                         'mongodb://localhost:27017/test',
@@ -270,15 +273,14 @@ describe('Hapi server', async () => {
                         },
                         'mongodb://localhost:27017/local'
                     ],
-                    options: {
-                        native_parser: false
-                    }
+                    options: { native_parser: false }
                 }
             });
             const plugin = server.plugins['hapi-multi-mongo'];
             expect(plugin.mongo).to.be.an.object().and.to.have.length(3);
             expect(plugin.mongo).includes(['test', 'myConn', 'local']);
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -287,12 +289,10 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: [
-                        {
-                            uri: 'mongodb://localhost:27017', name: 'myMongo'
-                        }
+                        { uri: 'mongodb://localhost:27017', name: 'myMongo' }
                     ]
                 }
             });
@@ -305,6 +305,7 @@ describe('Hapi server', async () => {
                     expect(plugin.mongo.myMongo).to.exist();
                     const db = plugin.mongo.myMongo.db('test');
                     expect(db).to.exist();
+                    return Promise.resolve(null);
                 }
             });
 
@@ -312,7 +313,8 @@ describe('Hapi server', async () => {
                 method: 'GET',
                 url: '/'
             });
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -321,14 +323,12 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: [
                         {
                             uri: 'mongodb://localhost:27017', name: 'myMongo',
-                            options: {
-                                promiseLibrary: require('bluebird')
-                            }
+                            options: { promiseLibrary: require('bluebird') }
                         },
                         'mongodb://localhost:27017/test'
                     ]
@@ -338,15 +338,20 @@ describe('Hapi server', async () => {
             server.route({
                 method: 'GET',
                 path: '/',
-                handler: (request) => {
+                handler: async (request) => {
 
                     const plugin = server.plugins['hapi-multi-mongo'];
                     const db = plugin.mongo.myMongo.db('test');
                     const collection = db.collection('system.indexes');
 
-                    collection.findOne().then((data) => {
+                    try {
+                        await collection.findOne();
+                    }
+                    catch (e) {
+                        expect(e).to.not.exist();
+                    }
 
-                    });
+                    return Promise.resolve(null);
                 }
             });
 
@@ -354,8 +359,9 @@ describe('Hapi server', async () => {
                 method: 'GET',
                 url: '/'
             });
-        } catch (e) {
-            expect(err).to.not.exist();
+        }
+        catch (e) {
+            expect(e).to.not.exist();
         }
     });
 
@@ -363,7 +369,7 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
+                plugin: require('../lib'),
                 options: {
                     connection: [
                         {
@@ -378,7 +384,8 @@ describe('Hapi server', async () => {
             const plugin = server.plugins['hapi-multi-mongo'];
             expect(plugin.mongo).to.be.an.object().and.to.have.length(2);
             expect(plugin.mongo).includes(['myMongoConn1', 'local']);
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).to.not.exist();
         }
     });
@@ -387,10 +394,8 @@ describe('Hapi server', async () => {
 
         try {
             await server.register({
-                register: require('../lib'),
-                options: {
-                    connection: 'mongodb://localhost:27017/test'
-                }
+                plugin: require('../lib'),
+                options: { connection: 'mongodb://localhost:27017/test' }
             });
 
 
@@ -398,7 +403,8 @@ describe('Hapi server', async () => {
             await server.stop();
             await Promise.delay(100);
 
-        } catch (e) {
+        }
+        catch (e) {
             expect(e).not.to.exist();
         }
     });
