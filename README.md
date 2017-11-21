@@ -140,67 +140,73 @@ Configuration object options. All of the samples in below are correct
 ##### Example App:
 
 ```js
+const Hapi = require('hapi');
+const Boom = require('boom');
 
-const Hapi = require("hapi");
-const Boom = require("boom");
-
-const dbOpts = {
-    "connection": [
-      "mongodb://localhost:27017/test",
-      { uri: "mongodb://localhost:27017", name: "remoteMongo"}
-    ],
-    "options": {
-        "db": {
-            "native_parser": false
+const startServer = async function() {
+    
+    const dbOpts = {
+        "connection": [
+          "mongodb://localhost:27017/test",
+          { uri: "mongodb://localhost:27017", name: "remoteMongo"}
+        ],
+        "options": {
+            "db": {
+                "native_parser": false
+            }
         }
-    }
+    };
+    
+    const server = Hapi.Server();
+    
+    await server.register({
+        plugin: require('hapi-multi-mongo'),
+        options: dbOpts
+    });
+    
+    // pick collection from database connection
+    server.route( {
+        "method"  : "GET",
+        "path"    : "/users/{id}",
+        "handler" : async (request, reply) => {
+            const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+            const collection = mongos['test'].collection('users');
+
+            try {
+                const result = await collection.findOne({  "_id" : request.params.id });
+                return result;
+            }
+            catch(err){
+                return Boom.internal('Internal MongoDB error', err)
+            }
+        }
+    });
+    
+    // access directly to mongo object and pick database and collection
+    server.route( {
+        "method"  : "GET",
+        "path"    : "/dashboard",
+        "handler" : async (request, reply) => {
+            const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+            const db = mongos.remoteMongo.db('analytics');
+            const collection = db.collection('users');
+
+            try {
+                const result = await collection.find({});
+                return result;
+            }
+            catch(err){
+                return Boom.internal('Internal MongoDB error', err)
+            }            
+        }
+    });
+
+    await server.start();
+    console.log(`Server started at ${server.info.uri}`);
 };
 
-const server = new Hapi.Server();
-server.connection({ port: 3000 });
-
-server.register({
-    register: require('hapi-multi-mongo'),
-    options: dbOpts
-}, function (err) {
-    if (err) {
-        console.error(err);
-        throw err;
-    }
-
-    server.start(function() {
-        console.log("Server started at " + server.info.uri);
-    });
-});
-
-// pick collection from database connection
-server.route( {
-    "method"  : "GET",
-    "path"    : "/users/{id}",
-    "handler" : (request, reply) => {
-        const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-        const collection = mongos['test'].collection('users');
-
-        collection.findOne({  "_id" : request.params.id }, function(err, result) {
-            if (err) return reply(Boom.internal('Internal MongoDB error', err));
-            reply(result);
-        });
-    }
-});
-
-// access directly to mongo object and pick database and collection
-server.route( {
-    "method"  : "GET",
-    "path"    : "/dashboard",
-    "handler" : (request, reply) => {
-        const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-        const db = mongos.remoteMongo.db('analytics');
-        const collection = db.collection('users');
-
-        collection.find({}, function(err, result) {
-            if (err) return reply(Boom.internal('Internal MongoDB error', err));
-            reply(result);
-        });
-    }
+startServer().catch((err) => {
+    console.error(err);
+    process.exit(1);
 });
 ```
