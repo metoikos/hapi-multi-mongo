@@ -33,6 +33,19 @@ describe('Hapi server', () => {
 
     });
 
+    it('should fail return regex match null ', async () => {
+
+        try {
+            await server.register({
+                plugin: require('../lib'),
+                options: { connection: 'localhost/test' }
+            });
+        }
+        catch (e) {
+            expect(e).to.exist();
+        }
+    });
+
     it('should fail with invalid mongodb uri ', async () => {
 
         try {
