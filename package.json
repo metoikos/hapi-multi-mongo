@@ -21,11 +21,11 @@
   },
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
-    "bluebird": "3.x.x",
-    "mongodb": "^2.2.36"
+    "mongodb": "^2.2.36",
+    "mongodb-core": "^3.1.11"
   },
   "devDependencies": {
-    "bluebird": "3.5.1",
+    "bluebird": "^3.5.3",
     "code": "^5.2.4",
     "hapi": "^18.0.0",
     "lab": "^18.0.1"
