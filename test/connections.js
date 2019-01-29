@@ -387,6 +387,160 @@ describe('Hapi Mongo Connection', () => {
         }
     });
 
+
+    it('should be able insert data to collection', async () => {
+        try {
+            await server.register({
+                plugin: require('../lib'),
+                options: {
+                    connection: 'mongodb://localhost:27017/test',
+                }
+            });
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: async (request) => {
+
+                    const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+                    const collection = mongos['test'].collection('hmm-test-data');
+                    try {
+                        const result = await collection.insertOne({
+                            name: "Test User",
+                            grade: "95"
+                        });
+                        expect(result.insertedCount).equal(1);
+                        expect(result.insertedId).to.exist();
+                        return true;
+                    } catch (err) {
+                        return Boom.internal('Internal MongoDB error', err)
+                    }
+                }
+            });
+
+            await server.inject({
+                method: 'GET',
+                url: '/'
+            });
+
+        } catch (e) {
+            expect(e).to.not.exist();
+        }
+    });
+
+
+    it('should be able read data from collection', async () => {
+        try {
+            await server.register({
+                plugin: require('../lib'),
+                options: {
+                    connection: 'mongodb://localhost:27017/test',
+                }
+            });
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: async (request) => {
+
+                    const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+                    const collection = mongos['test'].collection('hmm-test-data');
+                    try {
+                        const result = await collection.findOne({
+                            name: "Test User",
+                        });
+                        expect(result._id).to.exist();
+                        expect(result.name).to.equal("Test User");
+                        return true;
+                    } catch (err) {
+                        return Boom.internal('Internal MongoDB error', err)
+                    }
+                }
+            });
+
+            await server.inject({
+                method: 'GET',
+                url: '/'
+            });
+
+        } catch (e) {
+            expect(e).to.not.exist();
+        }
+    });
+
+    it('should be able delete data from collection', async () => {
+        try {
+            await server.register({
+                plugin: require('../lib'),
+                options: {
+                    connection: 'mongodb://localhost:27017/test',
+                }
+            });
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: async (request) => {
+
+                    const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+                    const collection = mongos['test'].collection('hmm-test-data');
+                    try {
+                        const result = await collection.removeOne({
+                            name: "Test User",
+                        });
+                        // expect(result._id).to.exist();
+                        // expect(result.name).to.equal("Test User");
+                        expect(result.deletedCount).equal(1);
+                        return true;
+                    } catch (err) {
+                        return Boom.internal('Internal MongoDB error', err)
+                    }
+                }
+            });
+
+            await server.inject({
+                method: 'GET',
+                url: '/'
+            });
+
+        } catch (e) {
+            expect(e).to.not.exist();
+        }
+    });
+
+
+    it('should be able drop collection from database', async () => {
+        try {
+            await server.register({
+                plugin: require('../lib'),
+                options: {
+                    connection: 'mongodb://localhost:27017/test',
+                }
+            });
+
+            server.route({
+                method: 'GET',
+                path: '/',
+                handler: async (request) => {
+
+                    const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
+                    let result = await mongos['test'].dropCollection('hmm-test-data');
+                    expect(result).to.be.true();
+
+                    return true
+                }
+            });
+
+            await server.inject({
+                method: 'GET',
+                url: '/'
+            });
+
+        } catch (e) {
+            expect(e).to.not.exist();
+        }
+    });
+
     it('should disconnect if the server stops', async () => {
 
         try {
