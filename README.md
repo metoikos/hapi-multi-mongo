@@ -147,8 +147,8 @@ Configuration object options. All of the samples in below are correct
 ##### Example App:
 
 ```js
-const Hapi = require('hapi');
-const Boom = require('boom');
+const Hapi = require('@hapi/hapi');
+const Boom = require('@hapi/boom');
 
 const startServer = async function() {
     
@@ -175,7 +175,7 @@ const startServer = async function() {
         "path"    : "/users/{id}",
         "handler" : async (request, reply) => {
             const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-            const collection = mongos['test'].collection('users');
+            const collection = mongos['test'].db().collection('users');
 
             try {
                 const result = await collection.findOne({  "_id" : request.params.id });
