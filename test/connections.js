@@ -1,12 +1,12 @@
 'use strict';
 
-const Hapi = require('hapi');
-const Lab = require('lab');
+const Hapi = require('@hapi/hapi');
+const Lab = require('@hapi/lab');
 const lab = exports.lab = Lab.script();
 const describe = lab.describe;
 const it = lab.it;
 const beforeEach = lab.beforeEach;
-const expect = require('code').expect;
+const expect = require('@hapi/code').expect;
 const delay = ms => new Promise(_ => setTimeout(_, ms));
 describe('Hapi Mongo Connection', () => {
 
@@ -403,7 +403,7 @@ describe('Hapi Mongo Connection', () => {
                 handler: async (request) => {
 
                     const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-                    const collection = mongos['test'].collection('hmm-test-data');
+                    const collection = mongos['test'].db().collection('hmm-test-data');
                     try {
                         const result = await collection.insertOne({
                             name: "Test User",
@@ -444,7 +444,7 @@ describe('Hapi Mongo Connection', () => {
                 handler: async (request) => {
 
                     const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-                    const collection = mongos['test'].collection('hmm-test-data');
+                    const collection = mongos['test'].db().collection('hmm-test-data');
                     try {
                         const result = await collection.findOne({
                             name: "Test User",
@@ -483,7 +483,7 @@ describe('Hapi Mongo Connection', () => {
                 handler: async (request) => {
 
                     const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-                    const collection = mongos['test'].collection('hmm-test-data');
+                    const collection = mongos['test'].db().collection('hmm-test-data');
                     try {
                         const result = await collection.removeOne({
                             name: "Test User",
@@ -524,7 +524,7 @@ describe('Hapi Mongo Connection', () => {
                 handler: async (request) => {
 
                     const mongos = request.server.plugins['hapi-multi-mongo'].mongo;
-                    let result = await mongos['test'].dropCollection('hmm-test-data');
+                    let result = await mongos['test'].db().collection('hmm-test-data').drop();
                     expect(result).to.be.true();
 
                     return true

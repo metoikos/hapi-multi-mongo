@@ -4,7 +4,7 @@
   "description": "Hapi mongodb connection plugin, especially for multiple connections",
   "main": "lib/index.js",
   "scripts": {
-    "test": "lab --coverage-exclude coverage -m 5000 -t 100 -a code"
+    "test": "lab --coverage-exclude coverage -m 5000 -t 100 -a @hapi/code"
   },
   "repository": {
     "type": "git",
@@ -21,14 +21,14 @@
   },
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^2.2.36",
+    "mongodb": "^3.3.3",
     "mongodb-core": "^3.1.11"
   },
   "devDependencies": {
-    "bluebird": "^3.5.3",
-    "code": "^5.2.4",
-    "hapi": "^18.0.0",
-    "lab": "^18.0.1"
+    "@hapi/code": "^7.0.0",
+    "@hapi/hapi": "^18.4.0",
+    "@hapi/lab": "^21.0.0",
+    "bluebird": "^3.7.1"
   },
   "peerDependencies": {
     "hapi": ">= 17.x.x"
