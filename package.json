@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^3.3.3",
-    "mongodb-core": "^3.1.11"
+    "mongodb": "^3.3.3"
   },
   "devDependencies": {
     "@hapi/code": "^7.0.0",
@@ -31,6 +30,6 @@
     "bluebird": "^3.7.1"
   },
   "peerDependencies": {
-    "hapi": ">= 17.x.x"
+    "@hapi/hapi": ">= 17.x.x"
   }
 }
