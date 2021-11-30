@@ -21,15 +21,15 @@
   },
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^3.3.3"
+    "mongodb": "^4.2.0"
   },
   "devDependencies": {
+    "@hapi/boom": "^9.1.4",
     "@hapi/code": "^7.0.0",
-    "@hapi/hapi": "^19.1.1",
-    "@hapi/lab": "^21.0.0",
-    "bluebird": "^3.7.1"
+    "@hapi/hapi": "^20.0.0",
+    "@hapi/lab": "^24.4.0"
   },
   "peerDependencies": {
-    "@hapi/hapi": ">= 17.x.x"
+    "@hapi/hapi": ">= 20.x.x"
   }
 }
