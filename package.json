@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^4.2.0"
+    "mongodb": "^4.13.0"
   },
   "devDependencies": {
     "@hapi/boom": "^9.1.4",
