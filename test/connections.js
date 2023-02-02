@@ -72,9 +72,17 @@ describe('Hapi Mongo Connection', () => {
     it('should fail with no mongodb listening', async () => {
 
         try {
-            await server.register({
+            const thing = await server.register({
                 plugin: require('../lib'),
-                options: {connection: 'mongodb://localhost:27018/test'}
+                options: {
+                    connection: 'mongodb://127.0.0.1:27018/test',
+                    options: {
+                        useNewUrlParser: true,
+                        useUnifiedTopology: true,
+                        connectTimeoutMS: 1000,
+                        serverSelectionTimeoutMS: 300
+                    }
+                }
             });
         } catch (e) {
             expect(e).to.exist();
