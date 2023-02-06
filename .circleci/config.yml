@@ -9,14 +9,31 @@ orbs:
   node: circleci/node@5.0.2
 
 aliases:
-  - test_image: &test_image
+  - test_image44: &test_image44
+      docker:
+        - image: cimg/node:16.16
+        - image: mongo:4.4
+  - test_image60: &test_image60
       docker:
         - image: cimg/node:16.16
         - image: mongo:6.0
 
 jobs:
-  test:
-    <<: *test_image
+  test44:
+    <<: *test_image44
+
+    steps:
+      - checkout
+
+      - node/install-packages:
+          pkg-manager: npm
+
+      - run:
+          name: Run tests
+          command: npm test
+
+  test60:
+    <<: *test_image60
 
     steps:
       - checkout
@@ -32,4 +49,5 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   test:
     jobs:
-      - test
+      - test44
+      - test60
