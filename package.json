@@ -1,6 +1,6 @@
 {
   "name": "hapi-multi-mongo",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "Hapi mongodb connection plugin, especially for multiple connections",
   "main": "lib/index.js",
   "scripts": {
@@ -8,28 +8,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:metoikos/hapi-multi-mongo.git"
+    "url": "git@github.com:alyne/hapi-multi-mongo.git"
   },
   "keywords": [
     "hapi",
     "mongodb"
   ],
-  "author": "Yılmaz Uğurlu",
+  "author": "bearzk",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/metoikos/hapi-multi-mongo/issues"
+    "url": "https://github.com/alyne/hapi-multi-mongo/issues"
   },
-  "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
+  "homepage": "https://github.com/alyne/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^3.3.3"
+    "mongodb": "^4.13.0"
   },
   "devDependencies": {
+    "@hapi/boom": "^9.1.4",
     "@hapi/code": "^7.0.0",
-    "@hapi/hapi": "^19.1.1",
-    "@hapi/lab": "^21.0.0",
-    "bluebird": "^3.7.1"
+    "@hapi/hapi": "^20.0.0",
+    "@hapi/lab": "^24.4.0"
   },
   "peerDependencies": {
-    "@hapi/hapi": ">= 17.x.x"
+    "@hapi/hapi": ">= 20.x.x"
   }
 }

@@ -1,5 +1,6 @@
 'use strict';
 
+const Boom = require('@hapi/boom');
 const Hapi = require('@hapi/hapi');
 const Lab = require('@hapi/lab');
 const lab = exports.lab = Lab.script();
@@ -71,9 +72,17 @@ describe('Hapi Mongo Connection', () => {
     it('should fail with no mongodb listening', async () => {
 
         try {
-            await server.register({
+            const thing = await server.register({
                 plugin: require('../lib'),
-                options: {connection: 'mongodb://localhost:27018/test'}
+                options: {
+                    connection: 'mongodb://127.0.0.1:27018/test',
+                    options: {
+                        useNewUrlParser: true,
+                        useUnifiedTopology: true,
+                        connectTimeoutMS: 1000,
+                        serverSelectionTimeoutMS: 300
+                    }
+                }
             });
         } catch (e) {
             expect(e).to.exist();
@@ -95,7 +104,7 @@ describe('Hapi Mongo Connection', () => {
                 plugin: require('../lib'),
                 options: {
                     connection: 'mongodb://localhost:27017/test',
-                    options: {native_parser: false}
+                    options: {keepAlive: false}
                 }
             });
         } catch (e) {
@@ -269,13 +278,12 @@ describe('Hapi Mongo Connection', () => {
                             uri: 'mongodb://127.0.0.1:27017',
                             name: 'myConn',
                             options: {
-                                native_parser: true,
-                                promiseLibrary: require('bluebird')
+                                keepAlive: true,
                             }
                         },
                         'mongodb://localhost:27017/local'
                     ],
-                    options: {native_parser: false}
+                    options: {keepAlive: false}
                 }
             });
             const plugin = server.plugins['hapi-multi-mongo'];
@@ -328,7 +336,7 @@ describe('Hapi Mongo Connection', () => {
                     connection: [
                         {
                             uri: 'mongodb://localhost:27017', name: 'myMongo',
-                            options: {promiseLibrary: require('bluebird')}
+                            options: {}
                         },
                         'mongodb://localhost:27017/test'
                     ]

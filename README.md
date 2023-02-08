@@ -1,5 +1,4 @@
-[![npm version](https://badge.fury.io/js/hapi-multi-mongo.svg)](https://badge.fury.io/js/hapi-multi-mongo) 
-[![Build Status](https://travis-ci.org/metoikos/hapi-multi-mongo.svg?branch=master)](https://travis-ci.org/metoikos/hapi-multi-mongo)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/alyne/hapi-multi-mongo/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/alyne/hapi-multi-mongo/tree/develop)
 
 # Hapi-Multi-Mongo
 
