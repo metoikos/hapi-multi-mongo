@@ -8,18 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:metoikos/hapi-multi-mongo.git"
+    "url": "git@github.com:alyne/hapi-multi-mongo.git"
   },
   "keywords": [
     "hapi",
     "mongodb"
   ],
-  "author": "Yılmaz Uğurlu",
+  "author": "bearzk",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/metoikos/hapi-multi-mongo/issues"
+    "url": "https://github.com/alyne/hapi-multi-mongo/issues"
   },
-  "homepage": "https://github.com/metoikos/hapi-multi-mongo#readme",
+  "homepage": "https://github.com/alyne/hapi-multi-mongo#readme",
   "dependencies": {
     "mongodb": "^4.13.0"
   },

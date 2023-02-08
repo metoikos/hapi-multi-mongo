@@ -1,4 +1,4 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/alyne/hapi-multi-mongo/tree/feature%2Fupgrade-packages.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/alyne/hapi-multi-mongo/tree/feature%2Fupgrade-packages)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/alyne/hapi-multi-mongo/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/alyne/hapi-multi-mongo/tree/develop)
 
 # Hapi-Multi-Mongo
 
