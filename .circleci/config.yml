@@ -11,15 +11,15 @@ orbs:
 aliases:
   - test_image44: &test_image44
       docker:
-        - image: cimg/node:18.19
+        - image: cimg/node:20.11
         - image: mongo:4.4
   - test_image60: &test_image60
       docker:
-        - image: cimg/node:18.19
+        - image: cimg/node:20.11
         - image: mongo:6.0
   - test_image70: &test_image70
       docker:
-        - image: cimg/node:18.19
+        - image: cimg/node:20.11
         - image: mongo:7.0
 
 jobs:

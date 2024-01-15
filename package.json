@@ -21,15 +21,15 @@
   },
   "homepage": "https://github.com/alyne/hapi-multi-mongo#readme",
   "dependencies": {
-    "mongodb": "^4.13.0"
+    "mongodb": "^4.17.0"
   },
   "devDependencies": {
     "@hapi/boom": "^9.1.4",
     "@hapi/code": "^7.0.0",
-    "@hapi/hapi": "^20.0.0",
+    "@hapi/hapi": "^21.0.0",
     "@hapi/lab": "^24.4.0"
   },
   "peerDependencies": {
-    "@hapi/hapi": ">= 20.x.x"
+    "@hapi/hapi": "^20.x.x || ^21.0.0"
   }
 }
